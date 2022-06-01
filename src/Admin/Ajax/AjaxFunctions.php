@@ -49,7 +49,7 @@ class AjaxFunctions
     }
 
     /**
-     * Add a "Once a Week" interval.
+     * Create a post meta array to the new post
      *
      * @return array post meta array.
      */
@@ -82,6 +82,12 @@ class AjaxFunctions
         wp_set_post_categories($elementToInsert, $newCatId);
         return $newCatId;
     }
+
+    /**
+     * Update the api_breweries_imported options
+     *
+     * @return void
+     */
     public static function update_imported_breweries_option()
     {
         update_option('api_breweries_imported', 1);

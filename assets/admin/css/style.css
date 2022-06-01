@@ -12,7 +12,7 @@
     padding: 20px 10px;
     border: solid 1px lightgray;
     border-radius: 5px;
-    animation: fadeIn 0.3s;
+    animation: fadeIn 0.8s;
 }
 #imported-breweries-list .brewery-item .brewery-name {
     margin-top: 0;

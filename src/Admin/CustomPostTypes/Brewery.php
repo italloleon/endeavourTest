@@ -67,16 +67,18 @@ class Brewery
 
 
 	/**
-	 * Overwrite a Brewery Front Template
+	 * Overwrite a Single Brewery Front Template
 	 * 
 	 * @return string
 	 */
-	public static function overwrite_brewery_template($template)
+	public static function overwrite_brewery_template_single($template)
 	{
 		$object = get_queried_object();
+
 		if ($object->post_type === self::post_type) {
 			return IMPORTAPI_PLUGIN_DIR . "/single-$object->post_type.php";
 		}
+
 		return $template;
 	}
 

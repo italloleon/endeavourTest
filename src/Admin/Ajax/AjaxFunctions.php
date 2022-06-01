@@ -2,9 +2,8 @@
 
 namespace ImportApiPlugin\Admin\Ajax;
 
-
 /**
- * Class to manage the plugin activation functions
+ * Class to manage the plugin activation functions by ajax
  * 
  * @package    ImportApiPlugin
  * @subpackage ImportApiPlugin/src/Admin/Ajax
@@ -15,6 +14,11 @@ namespace ImportApiPlugin\Admin\Ajax;
 class AjaxFunctions
 {
 
+    /**
+     * Import the received breweries from json
+     *
+     * @return void
+     */
     public static function import_breweries_from_json()
     {
         $data = $_REQUEST['dataJson'];
@@ -35,7 +39,8 @@ class AjaxFunctions
                 'brewery_name' => $breweryElement->name,
                 'brewery_id' => $new_brewery,
                 'brewery_wp_url' => get_permalink($new_brewery),
-                'brewery_cat' => $catAdded
+                'brewery_cat' => $catAdded,
+                'brewery_edit_url' => get_edit_post_link($new_brewery, false)
             ));
         }
         self::update_imported_breweries_option();
@@ -43,6 +48,11 @@ class AjaxFunctions
         die();
     }
 
+    /**
+     * Add a "Once a Week" interval.
+     *
+     * @return array post meta array.
+     */
     public static function plugin_create_post_meta($element)
     {
         $post_meta_array = array(
@@ -56,6 +66,11 @@ class AjaxFunctions
         return $post_meta_array;
     }
 
+    /**
+     * Sets a new category to new post
+     *
+     * @return int created post id.
+     */
     public static function plugin_set_element_category($elementToInsert, $currentCategory)
     {
         if (category_exists($currentCategory)) {

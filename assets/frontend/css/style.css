@@ -1,0 +1,152 @@
+#brewery-template {
+    max-width: 100%;
+    width: 100%;
+    display: block;
+    font-family: "Trebuchet MS", sans-serif;
+    background-color: #fff;
+}
+#brewery-template .brewery-header {
+    position: relative;
+    color: #fff;
+    background-color: #ca8a04;
+    padding: 30px;
+    padding-top: 120px;
+    overflow: hidden;
+}
+#brewery-template .brewery-header .brewery-header-container {
+    max-width: 1110px;
+    margin: 0 auto;;
+}
+#brewery-template .brewery-header::after {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    content: "\f16c";
+    font-family: "Dashicons";
+    display: inline-block;
+    font-size: 600px;
+    opacity: 0.3;
+    transform: scaleX(-100%);
+    color: #fff;
+}
+#brewery-template .brewery-header .brewery-title::before {
+    content: "\f16c";
+    font-family: "Dashicons";
+    display: inline-block;
+    -webkit-animation: serveBrewery 1s normal linear;
+    animation: serveBrewery 1s normal linear;
+}
+
+.brewery-template-container {
+    max-width: 1110px;
+    background-color: #fff;
+    margin: 0 auto;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    color: black;
+    display: grid;
+    grid-template-columns: 70% 30%;
+    column-gap: 40px
+}
+.brewery-template-container .brewery-info {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.brewery-template-container .brewery-info.brewery-city::before,
+.brewery-template-container .brewery-info.brewery-country::before {
+    content: "\f231";
+    font-family: "Dashicons";
+    display: inline-block;
+}
+.brewery-template-container .brewery-info.brewery-phone::before {
+    content: "\f525";
+    font-family: "Dashicons";
+    display: inline-block;
+}
+.brewery-template-container .brewery-info.brewery-postal_code::before {
+    content: "\f230";
+    font-family: "Dashicons";
+    display: inline-block;
+}
+.brewery-template-container .brewery-website_url {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #ca8a04;
+    font-size: 1.5rem;
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    text-decoration: none;
+    transition: all .3s;
+}
+.brewery-template-container .brewery-website_url:hover {
+    background-color: #8a5f02;
+}
+.brewery-side-bar{
+    color: #000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+.brewery-side-bar .related-breweries-container-title{
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.brewery-side-bar .related-breweries-container{
+    display: flex;
+    flex-direction: column;
+}
+.brewery-side-bar .related-breweries-container .related-brewery{
+    margin-bottom: 20px;
+}
+.brewery-side-bar .related-breweries-container .related-brewery .related-brewery-link{
+    color: #ca8a04;
+    font-size: 20px;
+    text-decoration: none;
+}
+.brewery-side-bar .related-breweries-container .related-brewery .related-brewery-link:hover{
+    color: #8a5f02;
+    font-size: 20px;
+}
+
+@media (max-width: 992px) {
+    #brewery-template .brewery-header .brewery-header-container {
+        max-width: 700px;
+    }
+    .brewery-template-container {
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+    }
+    .brewery-side-bar{
+        margin-top: 40px;
+    }
+}
+@media (max-width: 500px) {
+    #brewery-template .brewery-header .brewery-header-container {
+        max-width: 300px;
+    }
+    .brewery-template-container {
+        max-width: 300px;
+        display: flex;
+        flex-direction: column
+    }
+    .brewery-side-bar{
+        margin-top: 40px;
+    }
+}
+
+@keyframes serveBrewery {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}

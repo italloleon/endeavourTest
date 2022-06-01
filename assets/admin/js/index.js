@@ -2,12 +2,22 @@
  * A class which control the breweries import
  */
 class ImportBreweries {
+    /**
+     * Adds methods for ImportBreweries
+     *
+     * @returns {void}
+     */
     constructor() {
         this.selectorButtonId = 'import-breweries';
         this.selectorListId = 'imported-breweries-list';
         this.addClickButtonEventListeners();
-
     }
+
+    /**
+     * Adds event handler for import button
+     *
+     * @returns {void}
+     */
     addClickButtonEventListeners() {
         const self = this;
         let element = document.getElementById(this.selectorButtonId);
@@ -18,6 +28,11 @@ class ImportBreweries {
         }
     }
 
+    /**
+     * Get breweries api results
+     *
+     * @returns {void}
+     */
     getApiResults() {
         let self = this;
         let pagesArray = [1, 2, 3];
@@ -30,9 +45,14 @@ class ImportBreweries {
             console.log(newArray);
             let jsonString = JSON.stringify(newArray);
             self.sendAjaxDataBreweries(jsonString);
-
         });
     }
+
+    /**
+     * Send data req to the backend
+     *
+     * @returns {void}
+     */
     sendAjaxDataBreweries(myDataJson) {
         let self = this;
         let headers = new Headers();
@@ -53,6 +73,11 @@ class ImportBreweries {
             });
     }
 
+    /**
+     * Mount the breweries list with the ajax results
+     *
+     * @returns {void}
+     */
     mountBreweriesList(arrayList) {
         let self = this;
         let elementsArray = arrayList;
@@ -99,13 +124,15 @@ class ImportBreweries {
             buttonContainer.append(checkButton);
             buttonContainer.append(editButton);
             liElement.append(buttonContainer);
-            setTimeout(function () {
-                ulElement.append(liElement);
-            }, 200)
+            ulElement.append(liElement);
         });
-        // console.log(elementsArray);
     }
 
+    /**
+     * Creates a new Html object
+     *
+     * @returns {HTMLObjectElement}
+     */
     createHtmlElement(elementString, text, attributes = [], classes = []) {
         let self = this;
         let elementToCreate = document.createElement(elementString);
@@ -122,11 +149,18 @@ class ImportBreweries {
         return elementToCreate;
     }
 
+    /**
+     * Disable the button after the click
+     *
+     * @returns {void}
+     */
     disableButtonAfterStartApi() {
         let self = this;
         let button = document.getElementById(self.selectorButtonId);
         button.setAttribute('disabled', 'disabled');
     }
+
+    // TODO toggleLoaderClass();
 }
 
 new ImportBreweries();

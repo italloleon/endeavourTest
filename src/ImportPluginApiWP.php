@@ -33,11 +33,13 @@ if (!class_exists('ImportPluginApiWP')) :
             add_filter('single_template', array($brewery, 'overwrite_brewery_template'));
             register_activation_hook(IMPORTAPI_PLUGIN, array($import_api_plugin_activator, 'activate'));
             add_action('admin_menu', array($brewery, 'brewery_import_sub_menu_page'));
-            add_action('admin_enqueue_scripts', array($this, 'register_plugin_files'));
+            add_action('admin_enqueue_scripts', array($this, 'register_plugin_admin_files'));
             add_action('wp_ajax_import_breweries_from_json', array($ajaxFunctions, 'import_breweries_from_json'));
+            add_action('init', array($this, 'update_user_on_init'), 10, 0);
+            add_option('api_breweries_imported', 0);
         }
 
-        public function register_plugin_files()
+        public function register_plugin_admin_files()
         {
             wp_enqueue_script(
                 'import_plugin_api_script',
@@ -46,6 +48,13 @@ if (!class_exists('ImportPluginApiWP')) :
                 false,
                 true
             );
+            wp_enqueue_style(
+                'import_plugin_api_style',
+                IMPORTAPI_PLUGIN_URL . '/assets/admin/css/style.css',
+                false,
+                false,
+                'all'
+            );
             wp_localize_script(
                 'import_plugin_api_script',
                 'site_config_object',
@@ -53,6 +62,13 @@ if (!class_exists('ImportPluginApiWP')) :
                     'ajaxUrl' => admin_url('admin-ajax.php'),
                 )
             );
+        }
+
+        public function update_user_on_init()
+        {
+            $user_meta_option = 'enable_custom_fields';
+            $current_user = wp_get_current_user()->ID;
+            update_user_meta($current_user, $user_meta_option, 1);
         }
     }
 endif;

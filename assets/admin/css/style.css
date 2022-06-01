@@ -1,0 +1,43 @@
+#imported-breweries-list {
+    max-width: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+}
+#imported-breweries-list .brewery-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 10px;
+    border: solid 1px lightgray;
+    border-radius: 5px;
+    animation: fadeIn 0.3s;
+}
+#imported-breweries-list .brewery-item .brewery-name {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+#imported-breweries-list .brewery-item .button-secondary {
+    margin-left: 5px;
+}
+
+@media (max-width: 992px) {
+    #imported-breweries-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 500px) {
+    #imported-breweries-list {
+        display: flex;
+        flex-direction: column;
+    }
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

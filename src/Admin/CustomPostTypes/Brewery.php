@@ -57,8 +57,9 @@ class Brewery
 			"map_meta_cap" => true,
 			"hierarchical" => false,
 			"query_var" => true,
-			"supports" => ["title", "author", "editor", "custom-fields", "revisions"],
+			"supports" => ["title", "author", "editor", "custom-fields", "revisions",],
 			"show_in_graphql" => true,
+			'taxonomies' => array('category'),
 		];
 
 		register_post_type(self::post_type, $args);
@@ -66,7 +67,6 @@ class Brewery
 
 
 	/**
-	 * 
 	 * Overwrite a Brewery Front Template
 	 * 
 	 * @return string
@@ -81,7 +81,6 @@ class Brewery
 	}
 
 	/**
-	 * 
 	 * Create a submenu to import breweries from API
 	 * 
 	 * @return void
@@ -98,20 +97,50 @@ class Brewery
 		);
 	}
 
+	/**
+	 * A callback function which displays the import option page
+	 * 
+	 * @return void
+	 */
 	public static function brewery_import_sub_menu_page_callback()
 	{
+		$breweries_imported = get_option('api_breweries_imported');
+		$button_text = 'Import Breweries';
+		if ($breweries_imported) {
+			$button_text = 'Allow Import Breweries';
+		}
 		ob_start();
 ?>
 		<div class="wrap">
 			<h1><?php _e('Import Breweries', 'import-api-plugin'); ?></h1>
 			<br>
-			<button class="button button-primary" id="import-breweries">
-				<?php _e('Import Breweries', 'import-api-plugin'); ?>
-			</button>
+			<?php if ($breweries_imported) : ?>
+				<p>
+					<?php
+					_e(
+						'An import has already been done previously. This action will not update or overwrite existing Breweries, and will duplicate content.',
+						'import-api-plugin'
+					);
+					?>
+				</p>
+				<p>
+					<?php
+					_e(
+						'Do you really want to perform this action?',
+						'import-api-plugin'
+					);
+					?>
+				</p>
+			<?php endif; ?>
+			<div class="button-gallery">
+				<button class="button button-primary" id="import-breweries">
+					<?php _e($button_text, 'import-api-plugin'); ?>
+				</button>
+			</div>
 			<hr>
-			<p>
+			<h2>
 				<?php _e('The imported breweries will appear bellow', 'import-api-plugin'); ?>
-			</p>
+			</h2>
 			<ul id="imported-breweries-list">
 
 			</ul>

@@ -26,8 +26,11 @@ define('IMPORTAPI_PLUGIN_DIR', untrailingslashit(dirname(IMPORTAPI_PLUGIN)));
 define('IMPORTAPI_VERSION', '1.0');
 require IMPORTAPI_PLUGIN_DIR . '/vendor/autoload.php';
 
+use ImportApiPlugin\Admin\PluginRoutine\ImportApiPluginApiActivator;
 use ImportApiPlugin\ImportPluginApiWP;
 
 
+$import_api_plugin_activator = new ImportApiPluginApiActivator;
+register_activation_hook(IMPORTAPI_PLUGIN, array($import_api_plugin_activator, 'activate'));
 $import_api_plugin = new ImportPluginApiWP;
 $import_api_plugin->init();

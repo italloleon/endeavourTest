@@ -27,11 +27,9 @@ if (!class_exists('ImportPluginApiWP')) :
         public function init()
         {
             $brewery = new Brewery;
-            $import_api_plugin_activator = new ImportApiPluginApiActivator;
             $ajaxFunctions = new AjaxFunctions;
             add_action('init', array($this, 'main_plugin_loads'), 10, 0);
             add_filter('single_template', array($brewery, 'overwrite_brewery_template_single'));
-            register_activation_hook(IMPORTAPI_PLUGIN, array($import_api_plugin_activator, 'activate'));
             add_action('admin_menu', array($brewery, 'brewery_import_sub_menu_page'));
             add_action('admin_enqueue_scripts', array($this, 'register_plugin_admin_files'));
             add_action('wp_enqueue_scripts', array($this, 'register_plugin_front_files'));

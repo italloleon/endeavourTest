@@ -2,7 +2,7 @@
 
 namespace ImportApiPlugin\Admin\PluginRoutine;
 
-if (!class_exists('ImportApiPluginApiActivator')) :
+if (!class_exists('ImportApiPluginApiDectivator')) :
     /**
      * Class to manage the plugin activation functions
      * 
@@ -12,10 +12,9 @@ if (!class_exists('ImportApiPluginApiActivator')) :
      * @since      1.0.0
      * 
      */
-    class ImportApiPluginApiActivator
+    class ImportApiPluginApiDectivator
     {
-        public static function activate()
-        {
+        public static function deactivate(){
             update_option('rewrite_rules', '');
         }
     }

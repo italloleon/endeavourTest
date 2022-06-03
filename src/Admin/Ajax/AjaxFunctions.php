@@ -22,9 +22,14 @@ class AjaxFunctions
     public static function import_breweries_from_json()
     {
         $data = $_REQUEST['dataJson'];
-        $dataToJson = json_decode(stripslashes($data));
+        $resultsArray = array();
+        for ($count = 1; $count <= 3; $count++) {
+            $requestResult = self::curlApiBrewery($count);
+            $requesJsonDecode = json_decode($requestResult);
+            $resultsArray = array_merge($resultsArray, $requesJsonDecode);
+        }
+        $dataToJson = $resultsArray;
         $created_breweries_array = array();
-        // var_dump($dataToJson);
         foreach ($dataToJson as $breweryElement) {
             $new_brewery_data = array(
                 'post_title'    => $breweryElement->name,
@@ -46,6 +51,25 @@ class AjaxFunctions
         self::update_imported_breweries_option();
         echo json_encode($created_breweries_array);
         die();
+    }
+
+    /**
+     * Gets data from brewery API
+     *
+     * @return void
+     */
+    public static function curlApiBrewery($page = 1)
+    {
+        $url = 'https://api.openbrewerydb.org/breweries?';
+        $query = "page=$page&per_page=25";
+        $request_url = $url . $query;
+        $curl = curl_init($request_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
     }
 
     /**

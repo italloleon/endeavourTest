@@ -22,38 +22,38 @@ class ImportBreweries {
         const self = this;
         let element = document.getElementById(this.selectorButtonId);
         try {
-            element.addEventListener("click", self.getApiResults.bind(self));
+            element.addEventListener("click", self.requestAjaxDataBreweries.bind(self));
         } catch (error) {
             console.log(error);
         }
     }
 
     /**
-     * Get breweries api results
+     * Get breweries api results (OLD)
      *
      * @returns {void}
      */
-    getApiResults() {
-        let self = this;
-        let pagesArray = [1, 2, 3];
-        self.disableButtonAfterStartApi();
-        Promise.all(pagesArray.map(id =>
-            fetch(`https://api.openbrewerydb.org/breweries?page=${id}&per_page=25`)
-                .then(response => response.json())
-        )).then(dataArrays => {
-            let newArray = dataArrays.reduce((list, sub) => list.concat(sub), []);
-            console.log(newArray);
-            let jsonString = JSON.stringify(newArray);
-            self.sendAjaxDataBreweries(jsonString);
-        });
-    }
+    // getApiResults() {
+    //     let self = this;
+    //     let pagesArray = [1, 2, 3];
+    //     self.disableButtonAfterStartApi();
+    //     Promise.all(pagesArray.map(id =>
+    //         fetch(`https://api.openbrewerydb.org/breweries?page=${id}&per_page=25`)
+    //             .then(response => response.json())
+    //     )).then(dataArrays => {
+    //         let newArray = dataArrays.reduce((list, sub) => list.concat(sub), []);
+    //         console.log(newArray);
+    //         let jsonString = JSON.stringify(newArray);
+    //         self.requestAjaxDataBreweries(jsonString);
+    //     });
+    // }
 
     /**
      * Send data req to the backend
      *
      * @returns {void}
      */
-    sendAjaxDataBreweries(myDataJson) {
+    requestAjaxDataBreweries(myDataJson) {
         let self = this;
         let headers = new Headers();
         let myAjaxParams = {
@@ -62,7 +62,7 @@ class ImportBreweries {
             headers: headers,
             body: new URLSearchParams({
                 action: 'import_breweries_from_json',
-                dataJson: myDataJson
+                // dataJson: myDataJson
             })
         }
         fetch(site_config_object.ajaxUrl, myAjaxParams)

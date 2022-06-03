@@ -1,7 +1,7 @@
 /**
  * A class which control the breweries import
  */
-class ImportBreweries {
+ class ImportBreweries {
     /**
      * Adds methods for ImportBreweries
      *
@@ -53,7 +53,7 @@ class ImportBreweries {
      *
      * @returns {void}
      */
-    requestAjaxDataBreweries(myDataJson) {
+    requestAjaxDataBreweries() {
         let self = this;
         let headers = new Headers();
         let myAjaxParams = {
@@ -62,9 +62,9 @@ class ImportBreweries {
             headers: headers,
             body: new URLSearchParams({
                 action: 'import_breweries_from_json',
-                // dataJson: myDataJson
             })
         }
+        self.disableButtonAfterStartApi();
         fetch(site_config_object.ajaxUrl, myAjaxParams)
             .then(response => response.json())
             .then(data => {

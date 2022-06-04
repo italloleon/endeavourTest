@@ -21,33 +21,14 @@ class AjaxFunctions
      */
     public static function import_breweries_from_json()
     {
-        $data = $_REQUEST['dataJson'];
         $resultsArray = array();
+        // Access the Breweries API 3 times, each one with 25 results
         for ($count = 1; $count <= 3; $count++) {
             $requestResult = self::curlApiBrewery($count);
             $requesJsonDecode = json_decode($requestResult);
             $resultsArray = array_merge($resultsArray, $requesJsonDecode);
         }
-        $dataToJson = $resultsArray;
-        $created_breweries_array = array();
-        foreach ($dataToJson as $breweryElement) {
-            $new_brewery_data = array(
-                'post_title'    => $breweryElement->name,
-                'post_content'  => '',
-                'post_status'   => 'publish',
-                'post_type'     => 'brewery',
-                'meta_input'    => self::plugin_create_post_meta($breweryElement)
-            );
-            $new_brewery = wp_insert_post($new_brewery_data);
-            $catAdded = self::plugin_set_element_category($new_brewery, $breweryElement->brewery_type);
-            array_push($created_breweries_array, array(
-                'brewery_name' => $breweryElement->name,
-                'brewery_id' => $new_brewery,
-                'brewery_wp_url' => get_permalink($new_brewery),
-                'brewery_cat' => $catAdded,
-                'brewery_edit_url' => get_edit_post_link($new_brewery, false)
-            ));
-        }
+        $created_breweries_array = self::create_breweries_ctp($resultsArray);
         self::update_imported_breweries_option();
         echo json_encode($created_breweries_array);
         die();
@@ -115,5 +96,35 @@ class AjaxFunctions
     public static function update_imported_breweries_option()
     {
         update_option('api_breweries_imported', 1);
+    }
+
+    /**
+     * Creates new Breweries Custom Post Type with the received data
+     *
+     * @return void
+     */
+    public static function create_breweries_ctp($elements_array)
+    {
+        $breweries_json_array = $elements_array;
+        $created_breweries_array = array();
+        foreach ($breweries_json_array as $breweryElement) {
+            $new_brewery_data = array(
+                'post_title'    => $breweryElement->name,
+                'post_content'  => '',
+                'post_status'   => 'publish',
+                'post_type'     => 'brewery',
+                'meta_input'    => self::plugin_create_post_meta($breweryElement)
+            );
+            $new_brewery = wp_insert_post($new_brewery_data);
+            $catAdded = self::plugin_set_element_category($new_brewery, $breweryElement->brewery_type);
+            array_push($created_breweries_array, array(
+                'brewery_name' => $breweryElement->name,
+                'brewery_id' => $new_brewery,
+                'brewery_wp_url' => get_permalink($new_brewery),
+                'brewery_cat' => $catAdded,
+                'brewery_edit_url' => get_edit_post_link($new_brewery, false)
+            ));
+        }
+        return $created_breweries_array;
     }
 }

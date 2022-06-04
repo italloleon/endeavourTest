@@ -1,7 +1,7 @@
 /**
  * A class which control the breweries import
  */
- class ImportBreweries {
+class ImportBreweries {
     /**
      * Adds methods for ImportBreweries
      *
@@ -29,26 +29,6 @@
     }
 
     /**
-     * Get breweries api results (OLD)
-     *
-     * @returns {void}
-     */
-    // getApiResults() {
-    //     let self = this;
-    //     let pagesArray = [1, 2, 3];
-    //     self.disableButtonAfterStartApi();
-    //     Promise.all(pagesArray.map(id =>
-    //         fetch(`https://api.openbrewerydb.org/breweries?page=${id}&per_page=25`)
-    //             .then(response => response.json())
-    //     )).then(dataArrays => {
-    //         let newArray = dataArrays.reduce((list, sub) => list.concat(sub), []);
-    //         console.log(newArray);
-    //         let jsonString = JSON.stringify(newArray);
-    //         self.requestAjaxDataBreweries(jsonString);
-    //     });
-    // }
-
-    /**
      * Send data req to the backend
      *
      * @returns {void}
@@ -64,11 +44,11 @@
                 action: 'import_breweries_from_json',
             })
         }
+        self.toggleLoaderClass();
         self.disableButtonAfterStartApi();
         fetch(site_config_object.ajaxUrl, myAjaxParams)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 self.mountBreweriesList(data);
             });
     }
@@ -126,6 +106,7 @@
             liElement.append(buttonContainer);
             ulElement.append(liElement);
         });
+        self.toggleLoaderClass();
     }
 
     /**
@@ -160,7 +141,16 @@
         button.setAttribute('disabled', 'disabled');
     }
 
-    // TODO toggleLoaderClass();
+    /**
+     * Toggle the list loader class
+     *
+     * @returns {void}
+     */
+    toggleLoaderClass(){
+        let self = this;
+        let button = document.getElementById(self.selectorListId);
+        button.classList.toggle('loading');
+    };
 }
 
 new ImportBreweries();
